@@ -53,7 +53,14 @@ public class MainActivity extends AppCompatActivity {
         buttonAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addProduct();
+                String name = editTextName.getText().toString().trim();
+                if (!TextUtils.isEmpty(name)) {
+                    addProduct();
+                }   else {
+                    Toast.makeText(MainActivity.this, "Please Enter a Name",Toast.LENGTH_LONG).show();
+
+                }
+                //addProduct();
             }
         });
 
@@ -115,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(name)) {
                     updateProduct(productId, name, price);
                     b.dismiss();
+                }   else {
+                    Toast.makeText(MainActivity.this, "Please Enter a Name",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -147,17 +156,12 @@ public class MainActivity extends AppCompatActivity {
         String name = editTextName.getText().toString().trim();
         double price = Double.parseDouble(String.valueOf(editTextPrice.getText().toString()));
 
-        if (!TextUtils.isEmpty(name)) {
-            String id = databaseProducts.push().getKey();
-            Product product = new Product(id, name, price);
-            databaseProducts.child(id).setValue(product);
-            editTextName.setText("");
-            editTextPrice.setText("");
-            Toast.makeText(this, "Product Added",Toast.LENGTH_LONG).show();
-        }   else {
-            Toast.makeText(this, "Please Enter a Name",Toast.LENGTH_LONG).show();
-
-        }
+        String id = databaseProducts.push().getKey();
+        Product product = new Product(id, name, price);
+        databaseProducts.child(id).setValue(product);
+        editTextName.setText("");
+        editTextPrice.setText("");
+        Toast.makeText(this, "Product Added",Toast.LENGTH_LONG).show();
 
     }
 }
